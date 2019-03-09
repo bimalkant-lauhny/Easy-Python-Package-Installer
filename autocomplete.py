@@ -6,11 +6,11 @@ def autocomplete_packages(text):
     # print("Text supplied: ", text)
     with sqlite3.connect("packages.db") as conn:
         cur = conn.cursor()
-        query = "SELECT * FROM packages WHERE name LIKE '%{text}%'".format(text=text)
-        print("query: ", query)
+        query = "SELECT name FROM packages WHERE name LIKE '%{text}%'".format(text=text)
+        # print("query: ", query)
         cur.execute(query)
-        results = cur.fetchall()
-        print("Fetch values: ", results)
+        results = [x[0] for x in cur.fetchall()]
+        # print("Fetch values: ", results)
         return results
 
 def completer(text, state):

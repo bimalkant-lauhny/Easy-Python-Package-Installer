@@ -10,16 +10,20 @@ def get_packages_name():
     all_anchor_tags = data.find_all('a')
     packages_name = []
     for tag in all_anchor_tags:
-        packages_name.append((tag.text.encode('ascii', 'ignore'),))
+        val = (str(tag.text),)
+        print(val)
+        packages_name.append(val)
+    return packages_name
 
 def insert_into_db():
     with sqlite3.connect('packages.db') as conn:
         c = conn.cursor()
         try:
-            # c.execute("CREATE TABLE if not exists packages (name text not null primary key)")
-            # c.executemany("INSERT into packages values(?)", get_packages_name())
+            c.execute("CREATE TABLE if not exists packages (name text primary key)")
+            c.executemany("INSERT into packages values(?)", get_packages_name())
             for row in c.execute('select * from packages'):
-                print row
+                #print (row)
+                pass
         except Exception as e:
             print("Exception occurred", e)
             conn.rollback()
