@@ -1,23 +1,23 @@
 import readline
 import sqlite3
+import os
 
-# commands = ["req", "request", "asd", "asdfg", "try", "trywith"]
 def autocomplete_packages(text):
-    # print("Text supplied: ", text)
     with sqlite3.connect("packages.db") as conn:
         cur = conn.cursor()
-        query = "SELECT name FROM packages WHERE name LIKE '%{text}%'".format(text=text)
-        # print("query: ", query)
+        query = "SELECT name FROM packages WHERE name LIKE '{text}%' limit 10".format(text=text)
         cur.execute(query)
+        
         results = [x[0] for x in cur.fetchall()]
-        # print("Fetch values: ", results)
         return results
 
 def completer(text, state):
+    if len(text) < 3:
+        return None
+    
     auto_packages = autocomplete_packages(text)
-    options = [i for i in auto_packages if i.startswith(text)]
-    if state < len(options):
-        return options[state]
+    if state < len(auto_packages):
+        return auto_packages[state]
     else:
         return None
 
@@ -26,5 +26,9 @@ readline.set_completer(completer)
 
 while True:
     a = input("> ")
-    print ("You entered", a)
-
+    if a == ".exit":
+        print ("Bye!")
+        break
+    command = "pip install {package}".format(package=a)
+    print("Installing {package} ...".format(package=a))
+    os.system(command)
