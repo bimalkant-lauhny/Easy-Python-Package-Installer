@@ -105,4 +105,6 @@ venv.bak/
 
 *.db
 
-server/config.py
+config.py
+
+time
