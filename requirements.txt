@@ -3,9 +3,14 @@ bs4==0.0.1
 certifi==2018.11.29
 chardet==3.0.4
 click==6.6
+Flask==1.0.2
 get==2018.11.19
 goo==0.8
 idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.10
+jsonify==0.5
+MarkupSafe==1.1.1
 numpy==1.16.2
 opencv-python==4.0.0.21
 pkg-resources==0.0.0
@@ -22,4 +27,5 @@ rethinkdb==2.4.0
 soupsieve==1.8
 urllib3==1.24.1
 uuid64==0.2.0
+Werkzeug==0.14.1
 xmltodict==0.9.2
