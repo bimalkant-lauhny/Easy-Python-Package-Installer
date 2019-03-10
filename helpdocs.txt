@@ -1,0 +1,26 @@
+Welcome to Advanced Python Package Installer docs!
+
+### Commands
+
+FORMAT - install package_name [package_name ...]
+EXPLAINATION - 'install' command is used to install multiple space separated package names 
+
+FORMAT - remove package_name [package_name ...]
+EXPLAINATION - 'remove' command is used to remove multiple space separated package names 
+
+NOTE: 'install' and 'remove' commands automatically update requirements list
+
+FORMAT - installed
+EXPLAINATION - 'installed' command  is used to list currently installed package names
+
+FORMAT - doc package_name [package_name ...]
+EXPLAINATION - 'doc' command  is used to generate documentation links of
+multiple space separated packages 
+
+FORMAT - exit 
+EXPLAINATION - 'exit' command  is used to exit the interpreter. Ctrl+C can also be used.
+
+FORMAT - help 
+EXPLAINATION - 'help' command  is used to generate list of commands you can use
+on this interpreter. 
+

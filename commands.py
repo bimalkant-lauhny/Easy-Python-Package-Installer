@@ -32,11 +32,18 @@ def getDocLink(command):
 def getInstalledPackages(command):
     os.system("pip list")
 
+def showHelp(command):
+    f = open("helpdocs.txt", "r")
+    content = f.read()
+    print(content)
+    f.close()
+
 COMM_EXEC = {
     "install": installPackages,
     "remove": removePackages,
     "exit": exitInterp,
     "doc": getDocLink,
     "installed": getInstalledPackages,
+    "help": showHelp,
 }
 
