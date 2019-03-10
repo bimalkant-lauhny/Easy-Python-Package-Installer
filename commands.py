@@ -66,21 +66,12 @@ def getDataFromServer(package):
         return d['data']
 
 def refreshPackageNames(command):
-    with sqlite3.connect('packages.db') as conn:
-        f = open('time', 'r')
-        content = f.read()
-        
-        if len(content) == 0 or  (time.time() - float(content)) / (24 * 60 * 60) > 24:
-            print("Updating...")
-            cur = conn.cursor()
-            cur.execute('create table if not exists packages (name text primary key)')
-            cur.executemany("INSERT into packages values(?)", get_data())
-
-
-        f = open('time', 'w')
-        f.write(str(time.time()))            
-
-
+    with sqlite3.connect('packages.db') as conn:        
+        print("Updating...")
+        cur = conn.cursor()
+        cur.execute('create table if not exists packages (name text primary key)')
+        cur.executemany("INSERT into packages values(?)", get_data())
+            
 COMM_EXEC = {
     "install": installPackages,
     "remove": removePackages,
