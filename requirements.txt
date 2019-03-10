@@ -5,14 +5,12 @@ chardet==3.0.4
 click==6.6
 Flask==1.0.2
 get==2018.11.19
-goo==0.8
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10
 jsonify==0.5
 MarkupSafe==1.1.1
 numpy==1.16.2
-opencv-python==4.0.0.21
 pkg-resources==0.0.0
 post==2018.11.20
 public==2018.11.20
