@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from db import results, results_adv
 from create_table import update
+import requests
 
 app = Flask(__name__)
 
@@ -43,6 +44,16 @@ def search_advance():
     return jsonify({
         'code': 200,
         'data': data
+    })
+
+@app.route('/update')
+def updated_list():
+    update()
+    data = results_adv('')
+
+    return jsonify({
+        'code': 200,
+        'data': data,
     })
 
 if __name__ == "__main__":

@@ -2,6 +2,8 @@ import sys
 import os
 import requests
 import json
+import sqlite3
+from script import get_packages_name
 
 server_url = "http://ec2-13-234-136-52.ap-south-1.compute.amazonaws.com:5000/"
 
@@ -69,8 +71,18 @@ def refreshPackageNames(command):
     with sqlite3.connect('packages.db') as conn:        
         print("Updating...")
         cur = conn.cursor()
-        cur.execute('create table if not exists packages (name text primary key)')
-        cur.executemany("INSERT into packages values(?)", get_data())
+        cur.execute('select name from packages')        
+        old_packages = [x[0] for x in cur.fetchall()]
+        new_packages = [x[0] for x in get_packages_name()]
+
+        diff = set(new_packages).difference(set(old_packages))
+        diff = list(diff)
+
+        if not diff:
+            return
+
+        diff = [(x,) for x in diff]
+        cur.executemany("INSERT into packages values(?)", diff)
             
 COMM_EXEC = {
     "install": installPackages,
@@ -82,4 +94,3 @@ COMM_EXEC = {
     "adv": fullSearch,
     "refreshdb": refreshPackageNames,
 }
-

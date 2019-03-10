@@ -4,7 +4,7 @@ import sqlite3
 
 def get_packages_name():
     r = requests.get('https://pypi.org/simple/')
-    data = BeautifulSoup(r.text)
+    data = BeautifulSoup(r.text, "lxml")
     all_anchor_tags = data.find_all('a')
 
     packages_name = []
