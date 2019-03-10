@@ -14,19 +14,26 @@ def get_data():
         val = (str(tag.text),)
         packages_name.append(val)
     
-    return packages_name
+    return packages_name           
 
 def update():
-    with sqlite3.connect('packages.db') as conn:
+    with sqlite3.connect('packages.db') as conn:      
         f = open('time', 'r')
         content = f.read()
-        
+
         if len(content) == 0 or  (time.time() - float(content)) / (24 * 60 * 60) > 24:
             print("Updating...")
+        
             cur = conn.cursor()
-            cur.execute('create table if not exists packages (name text primary key)')
-            cur.executemany("INSERT into packages values(?)", get_data())
+            cur.execute('select name from packages')        
+            old_packages = [x[0] for x in cur.fetchall()]
+            new_packages = [x[0] for x in get_data()]
 
+            diff = set(new_packages).difference(set(old_packages))
+            diff = list(diff)
 
-        f = open('time', 'w')
-        f.write(str(time.time()))            
+            if not diff:
+                return
+
+            diff = [(x,) for x in diff]
+            cur.executemany("INSERT into packages values(?)", diff)
