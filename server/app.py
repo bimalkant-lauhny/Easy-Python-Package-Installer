@@ -11,6 +11,11 @@ def index():
 @app.route('/search')
 def search():
     text = request.args.get('q')
+    if len(text) < 3:
+        return jsonify({
+            'code': 403,
+            'data': 'Query length should be more than 2',
+        })
     update()
     data = results(text)
 
@@ -23,9 +28,17 @@ def search():
 @app.route('/search/adv')
 def search_advance():
     text = request.args.get('q')
+
+    if len(text) < 3:
+        return jsonify({
+            'code': 403,
+            'data': 'Query length should be more than 2'
+        })
+
     update()
     data = results_adv(text)
 
+    
     print(data)
     return jsonify({
         'code': 200,
