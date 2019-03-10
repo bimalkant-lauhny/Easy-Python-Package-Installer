@@ -1,6 +1,7 @@
 import readline
 import sqlite3
 import os
+from commands import COMM_EXEC
 
 def autocomplete_packages(text):
     with sqlite3.connect("packages.db") as conn:
@@ -25,10 +26,10 @@ readline.parse_and_bind("tab: complete")
 readline.set_completer(completer)
 
 while True:
-    a = input("> ")
-    if a == ".exit":
-        print ("Bye!")
-        break
-    command = "pip install {package}".format(package=a)
-    print("Installing {package} ...".format(package=a))
-    os.system(command)
+    interp_input = input("> ")
+    command = interp_input.split()[0]
+    if command not in COMM_EXEC:
+        print("Unrecognized command!")
+    else:
+        COMM_EXEC[command](interp_input)
+
