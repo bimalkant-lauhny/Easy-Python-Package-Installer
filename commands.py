@@ -29,10 +29,14 @@ def getDocLink(command):
     for package in packages:
         print("https://pypi.org/project/{package}".format(package=package))
 
+def getInstalledPackages(command):
+    os.system("pip list")
+
 COMM_EXEC = {
     "install": installPackages,
     "remove": removePackages,
     "exit": exitInterp,
     "doc": getDocLink,
+    "installed": getInstalledPackages,
 }
 
