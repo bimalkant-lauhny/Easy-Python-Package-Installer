@@ -9,3 +9,12 @@ def results(text):
         
         results = [x[0] for x in cur.fetchall()]
         return results
+    
+def results_adv(text):
+    with sqlite3.connect('packages.db') as conn:
+        cur = conn.cursor()
+        query = "SELECT name FROM packages WHERE name LIKE '%{text}%'".format(text=text)
+        cur.execute(query)
+        
+        results = [x[0] for x in cur.fetchall()]
+        return results
