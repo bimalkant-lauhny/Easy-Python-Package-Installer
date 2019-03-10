@@ -68,7 +68,7 @@ def getDataFromServer(package):
         return d['data']
 
 def refreshPackageNames(command):
-    with sqlite3.connect('packages.db') as conn:        
+    with sqlite3.connect('data/packages.db') as conn:        
         print("Updating...")
         cur = conn.cursor()
         cur.execute('select name from packages')        
@@ -83,7 +83,15 @@ def refreshPackageNames(command):
 
         diff = [(x,) for x in diff]
         cur.executemany("INSERT into packages values(?)", diff)
-            
+
+def getOutdatedPackages(command):
+    os.system("pip list --outdated")
+
+def updatePackages(command):
+    os.system("pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U")
+    # update requirements.txt
+    os.system("pip freeze > requirements.txt")
+
 COMM_EXEC = {
     "install": installPackages,
     "remove": removePackages,
@@ -93,4 +101,6 @@ COMM_EXEC = {
     "help": showHelp,
     "adv": fullSearch,
     "refreshdb": refreshPackageNames,
+    "update": updatePackages,
+    "outdated": getOutdatedPackages,
 }

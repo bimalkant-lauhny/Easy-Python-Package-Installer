@@ -14,7 +14,7 @@ def get_packages_name():
     return packages_name
 
 def insert_into_db():
-    with sqlite3.connect('packages.db') as conn:
+    with sqlite3.connect('data/packages.db') as conn:
         c = conn.cursor()
         try:
             c.execute("CREATE TABLE if not exists packages (name text primary key)")
