@@ -1,5 +1,9 @@
 import sys
 import os
+import requests
+import json
+
+server_url = "http://ec2-13-234-136-52.ap-south-1.compute.amazonaws.com:5000/"
 
 def installPackages(command):
     packages = command.split()[1:]
@@ -38,6 +42,45 @@ def showHelp(command):
     print(content)
     f.close()
 
+def fullSearch(command):
+    package = command.split()[1]
+    print(package)
+    options = {
+        'q': package,
+    }
+
+    res = requests.get(server_url + 'search/adv?q={name}'.format(name=package))
+    d = res.json()
+    if d['code'] == 403:
+        print (d['data'])
+    else:
+        for package in d['data']:
+            print (package)
+
+def getDataFromServer(package):
+    res = requests.get(server_url + 'search?q={name}'.format(name=package))
+    d = res.json()
+    if d['code'] == 403:
+        print (d['data'])
+    else:
+        return d['data']
+
+def refreshPackageNames(command):
+    with sqlite3.connect('packages.db') as conn:
+        f = open('time', 'r')
+        content = f.read()
+        
+        if len(content) == 0 or  (time.time() - float(content)) / (24 * 60 * 60) > 24:
+            print("Updating...")
+            cur = conn.cursor()
+            cur.execute('create table if not exists packages (name text primary key)')
+            cur.executemany("INSERT into packages values(?)", get_data())
+
+
+        f = open('time', 'w')
+        f.write(str(time.time()))            
+
+
 COMM_EXEC = {
     "install": installPackages,
     "remove": removePackages,
@@ -45,5 +88,7 @@ COMM_EXEC = {
     "doc": getDocLink,
     "installed": getInstalledPackages,
     "help": showHelp,
+    "adv": fullSearch,
+    "refreshdb": refreshPackageNames,
 }
 
