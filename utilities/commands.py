@@ -68,7 +68,7 @@ def getDataFromServer(package):
         return d['data']
 
 def refreshPackageNames(command):
-    with sqlite3.connect('data/packages.db') as conn:        
+    with sqlite3.connect('db/packages.db') as conn:        
         print("Updating...")
         cur = conn.cursor()
         cur.execute('select name from packages')        

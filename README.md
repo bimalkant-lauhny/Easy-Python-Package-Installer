@@ -7,10 +7,13 @@ which allows them to search python packages and install them instantly.
 
 ### Usage
 
-* Run `script.py` to populate database.
-* Run `autocomplete.py` to get into the interpreter.
+* Clone the project repository
+* Enter the repo directory
+* Run `python3 script.py` to populate database.
+* Run `python3 .` to get into the interpreter.
 * At the interpreter, you can type any package name and press `Tab` for autocomplete feature.
-* Once you find the required package, type its name and press `Enter` to install
+* Once you find the required package, type its name and press `install package_name` to install package
+* Type `help` for the other commands
 
 
 ### Bugs and Feature Requests
