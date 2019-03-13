@@ -1,6 +1,6 @@
-# Advanced Python Package Installer
+# Easy Python Package Installer (easy-ppi)
 
-Advanced Python Package Installer is an improvement over `pip` installer API.
+Easy Python Package Installer is an improvement over `pip` installer API.
 It provide developers with an easy to use commandline interpreter interface 
 which allows them to search python packages and install them instantly.
 
@@ -11,6 +11,9 @@ which allows them to search python packages and install them instantly.
 * Enter the repo directory
 * Run `python3 script.py` to populate database.
 * Run `python3 .` to get into the interpreter.
+* If this is the first time you're using `easy-ppi`, run `refreshdb` command. `refreshdb` 
+  command populates the `db` with fresh list of python packages. You should also consider
+  running this command if you need to fetch fresh list of packages.
 * At the interpreter, you can type any package name and press `Tab` for autocomplete feature.
 * Once you find the required package, type its name and press `install package_name` to install package
 * Type `help` for the other commands
