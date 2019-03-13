@@ -1,4 +1,4 @@
-Welcome to Advanced Python Package Installer docs!
+Welcome to Easy Python Package Installer docs!
 
 ### Commands
 
@@ -9,6 +9,7 @@ FORMAT - remove package_name [package_name ...]
 EXPLANATION - 'remove' command is used to remove multiple space separated package names 
 
 NOTE: 'install' and 'remove' commands automatically update requirements list
+(no need to explicity call 'pip freeze')
 
 FORMAT - installed
 EXPLANATION - 'installed' command  is used to list currently installed package names

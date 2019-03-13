@@ -1,1 +1,1 @@
-name = "adv_ppi"
+name = "easy_ppi"

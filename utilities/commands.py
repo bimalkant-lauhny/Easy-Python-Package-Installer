@@ -3,9 +3,9 @@ import os
 import requests
 import json
 import sqlite3
-from script import get_packages_name
+from utilities.autocomplete import get_packages_all_with
+from utilities.update_packages import update_db
 
-server_url = "http://ec2-13-234-136-52.ap-south-1.compute.amazonaws.com:5000/"
 
 def installPackages(command):
     packages = command.split()[1:]
@@ -16,10 +16,6 @@ def installPackages(command):
     # update requirements.txt
     os.system("pip freeze > requirements.txt")
 
-def exitInterp(command):
-    print("Bye!")
-    sys.exit(0)
-
 def removePackages(command):
     packages = command.split()[1:]
     # install each package
@@ -28,6 +24,10 @@ def removePackages(command):
         os.system("pip uninstall {package}".format(package=package))
     # update requirements.txt
     os.system("pip freeze > requirements.txt")
+
+def exitInterp(command):
+    print("Bye!")
+    sys.exit(0)
 
 def getDocLink(command):
     packages = command.split()[1:]
@@ -39,50 +39,19 @@ def getInstalledPackages(command):
     os.system("pip list")
 
 def showHelp(command):
-    f = open("helpdocs.txt", "r")
-    content = f.read()
-    print(content)
-    f.close()
+    with open("helpdocs.txt", "r") as helpdocs:
+        print(helpdocs.read())
 
 def fullSearch(command):
     package = command.split()[1]
-    print(package)
-    options = {
-        'q': package,
-    }
-
-    res = requests.get(server_url + 'search/adv?q={name}'.format(name=package))
-    d = res.json()
-    if d['code'] == 403:
-        print (d['data'])
-    else:
-        for package in d['data']:
-            print (package)
-
-def getDataFromServer(package):
-    res = requests.get(server_url + 'search?q={name}'.format(name=package))
-    d = res.json()
-    if d['code'] == 403:
-        print (d['data'])
-    else:
-        return d['data']
+    package_list = get_packages_all_with(package)
+    for package in package_list:
+        print (package)
+    print("\nPackages Found: {}".format(len(package_list)))
 
 def refreshPackageNames(command):
-    with sqlite3.connect('db/packages.db') as conn:        
-        print("Updating...")
-        cur = conn.cursor()
-        cur.execute('select name from packages')        
-        old_packages = [x[0] for x in cur.fetchall()]
-        new_packages = [x[0] for x in get_packages_name()]
-
-        diff = set(new_packages).difference(set(old_packages))
-        diff = list(diff)
-
-        if not diff:
-            return
-
-        diff = [(x,) for x in diff]
-        cur.executemany("INSERT into packages values(?)", diff)
+    print("Updating package database ...")
+    update_db()
 
 def getOutdatedPackages(command):
     os.system("pip list --outdated")
@@ -104,3 +73,4 @@ COMM_EXEC = {
     "update": updatePackages,
     "outdated": getOutdatedPackages,
 }
+
