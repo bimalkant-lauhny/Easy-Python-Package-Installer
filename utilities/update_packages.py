@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
+import os
 
 PACKAGE_LIST_URL = "https://pypi.org/simple/"
 def get_packages_name():
@@ -15,6 +16,10 @@ def get_packages_name():
     return packages_name
 
 def update_db():
+    if not os.path.exists('db/packages.db'):
+        os.makedirs('db')
+        with open('db/packages.db', 'w'):
+            pass
     with sqlite3.connect("db/packages.db") as conn:
         cur = conn.cursor()
         try:
