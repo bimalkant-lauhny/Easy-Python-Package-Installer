@@ -9,6 +9,7 @@ which allows them to search python packages and install them instantly.
 
 * Clone the project repository
 * Enter the repo directory
+* Get latest pip version in your venv by using `pip install --upgrade pip` command.
 * Run `python3 .` to get into the interpreter.
 * If this is the first time you're using `easy-ppi`, run `refreshdb` command. `refreshdb` 
   command populates the `db` with fresh list of python packages. You should also consider
